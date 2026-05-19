@@ -2,6 +2,11 @@
  
 **Tugas Mata Kuliah II2240 Sistem Multimedia**  
 Metode: Least Significant Bit (LSB)
+
+| | |
+|---|---|
+| **Nama** | Zhafira Kayla Nafisa |
+| **NIM** | 18224018 |
  
 ---
  
@@ -60,10 +65,15 @@ Ketahanan watermark diukur menggunakan dua metrik:
  
 ## Cara Menjalankan
  
-Notebook ini dirancang untuk dijalankan di **Google Colab**.
- 
-1. Buka [Google Colab](https://colab.research.google.com/)
-2. Upload file `watermarking.ipynb`
-3. Jalankan cell kemudian akan muncul prompt untuk **upload foto wajah**
-4. Upload foto dalam format `.jpg` atau `.png`
-5. Semua output (grafik & gambar) akan otomatis ter-generate dan bisa didownload
+1. Install dependencies:
+   ```bash
+   pip install numpy pillow matplotlib scipy
+   ```
+2. Jalankan script:
+   ```bash
+   python watermarking.py photo.jpeg
+   ```
+3. Semua output tersimpan otomatis di folder yang sama atau tentukan folder output dengan:
+   ```bash
+   python watermarking.py photo.jpeg --output result/
+   ```
