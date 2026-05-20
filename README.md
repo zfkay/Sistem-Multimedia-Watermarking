@@ -42,9 +42,9 @@ Foto wajah dibaca kemudian dikonversi ke format grayscale. Konversi ini dilakuka
  
 Berikut visualisasi proses pemecahan channel warna menjadi grayscale:
  
-![Step 1 - RGB ke Grayscale](step1_rgb_to_grayscale.png)
+![Step 1 - RGB ke Grayscale](hasil/step1_rgb_to_grayscale.png)
  
-![Step 1 - Analisis Foto](step1_analisis_foto.png)
+![Step 1 - Analisis Foto](hasil/step1_analisis_foto.png)
  
 ---
  
@@ -52,7 +52,7 @@ Berikut visualisasi proses pemecahan channel warna menjadi grayscale:
  
 Watermark yang digunakan berupa citra biner acak berukuran 64×64 piksel, di mana setiap piksel bernilai 0 atau 1. Watermark dibangkitkan menggunakan random seed yang tetap SEED = 99 sehingga hasilnya dapat direproduksi dan diverifikasi kembali kapan pun.
 
-![Step 2 - Watermark Biner](step2_watermark_biner.png)
+![Step 2 - Watermark Biner](hasil/step2_watermark_biner.png)
  
 Distribusi bit watermark mendekati 50:50 antara nilai 0 dan 1, yang merupakan karakteristik wajar dari data acak. Total terdapat 4.096 bit yang akan disisipkan ke dalam foto.
  
@@ -62,7 +62,7 @@ Distribusi bit watermark mendekati 50:50 antara nilai 0 dan 1, yang merupakan ka
  
 Proses penyisipan dilakukan menggunakan metode Least Significant Bit (LSB). Prinsipnya adalah memanfaatkan bit ke-0 dari setiap piksel sebagai tempat menyimpan bit watermark. Perubahan pada LSB hanya menggeser nilai piksel sebesar maksimal kurang lebih 1, sehingga tidak terlihat secara visual oleh mata manusia.
  
-![Step 3 - Proses Embedding](step3_proses_embedding.png)
+![Step 3 - Proses Embedding](hasil/step3_proses_embedding.png)
  
 Dari total 2.433.600 piksel, hanya **2.039 piksel** yang mengalami perubahan (area watermark 64×64). Perbedaan nilai piksel maksimal sebesar kurang lebih 1 menjadikan foto asli dan foto ber-watermark tampak identik secara visual.
  
@@ -78,13 +78,13 @@ Kompresi JPEG bekerja melalui beberapa tahap:
 2. **DCT (Discrete Cosine Transform)**: setiap blok ditransformasi ke domain frekuensi. Pojok kiri atas merepresentasikan frekuensi rendah (informasi utama), pojok kanan bawah merepresentasikan frekuensi tinggi (detail halus)
 3. **Kuantisasi**: koefisien DCT dibagi dengan tabel kuantisasi kemudian dibulatkan ke bilangan bulat terdekat. Semakin kecil nilai QF, semakin besar nilai pembagi, semakin banyak informasi yang hilang secara permanen
 
-![Step 4 - Visualisasi DCT](step4_visualisasi_dct.png)
+![Step 4 - Visualisasi DCT](hasil/step4_visualisasi_dct.png)
  
 Pada QF=10, hanya 1 dari 64 koefisien DCT yang tersisa setelah kuantisasi. Pada QF=100, masih terdapat 16 dari 64 koefisien yang dipertahankan.
  
 Proses kuantisasi inilah yang menjadi penyebab utama rusaknya watermark LSB. Pembulatan nilai koefisien mengubah nilai piksel secara tidak terprediksi, dan perubahan sekecil kurang lebih 1 pada nilai piksel sudah cukup untuk merusak LSB yang telah disisipkan.
  
-![Step 4 - Perbandingan Kompresi](step4_perbandingan_kompresi.png)
+![Step 4 - Perbandingan Kompresi](hasil/step4_perbandingan_kompresi.png)
  
 Ukuran file hasil kompresi dibandingkan PNG asli (705 KB):
  
@@ -102,11 +102,9 @@ Ukuran file hasil kompresi dibandingkan PNG asli (705 KB):
  
 ### 5. Ekstraksi Watermark
  
-Setelah foto dikompres, watermark diekstrak kembali dengan membaca LSB dari area 64×64 piksel di pojok kiri atas pada setiap hasil kompresi.
+Setelah foto dikompres, watermark diekstrak kembali dengan membaca LSB dari area 64×64 piksel di pojok kiri atas pada setiap hasil kompresi. Hasil ekstraksi kemudian dibandingkan dengan watermark asli untuk menghitung nilai BER.
  
-Hasil ekstraksi kemudian dibandingkan dengan watermark asli untuk menghitung nilai BER.
- 
-![Step 5 - Hasil Ekstraksi](step5_hasil_ekstraksi.png)
+![Step 5 - Hasil Ekstraksi](hasil/step5_hasil_ekstraksi.png)
  
 Terlihat bahwa pada QF 10–90, watermark yang berhasil diekstrak hanya berupa noise acak tanpa kemiripan dengan watermark asli. Hanya pada QF=100 pola watermark mulai dapat dikenali kembali.
  
@@ -117,7 +115,8 @@ Terlihat bahwa pada QF 10–90, watermark yang berhasil diekstrak hanya berupa n
 Ketahanan watermark dievaluasi menggunakan dua metrik:
 - **BER (Bit Error Rate):** Proporsi bit watermark yang salah setelah ekstraksi. BER mendekati 0.5 berarti watermark hancur total (setara tebakan acak).
 - **PSNR (Peak Signal-to-Noise Ratio):** Mengukur kualitas gambar setelah kompresi. Semakin tinggi PSNR, semakin sedikit distorsi.
-![Step 6 - Grafik BER dan PSNR](step6_grafik_ber_psnr.png)
+
+![Step 6 - Grafik BER dan PSNR](hasil/step6_grafik_ber_psnr.png)
  
 ---
  
@@ -133,7 +132,7 @@ Ketahanan watermark dievaluasi menggunakan dua metrik:
 | 90  | 0.4827 | 55.32     | GAGAL  |
 | 100 | 0.0908 | 61.45     | BISA   |
  
-![Hasil Ekstraksi per QF](step5_hasil_ekstraksi.png)
+![Hasil Ekstraksi per QF](hasil/step5_hasil_ekstraksi.png)
 
 ---
  
